@@ -2,12 +2,12 @@ import express from "express";
 import db from "../../db/models/tableRelations.js";
 // import sequelize from "sequelize";
 
-const { Review } = db;
+const { Review, Product } = db;
 const reviewsRouter = express.Router();
 
 reviewsRouter.get("/", async (req, res, next) => {
   try {
-    const data = await Review.findAll({});
+    const data = await Review.findAll({ include: Product });
     res.send(data);
   } catch (err) {
     console.log(err);

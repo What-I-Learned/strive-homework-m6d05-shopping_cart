@@ -2,7 +2,7 @@ import express from "express";
 import db from "../../db/models/tableRelations.js";
 // import sequelize from "sequelize";
 
-const { Product } = db;
+const { Product, Review } = db;
 const productRouter = express.Router();
 
 productRouter.get("/", async (req, res, next) => {
@@ -17,7 +17,9 @@ productRouter.get("/", async (req, res, next) => {
 
 productRouter.get("/:ProductId", async (req, res, next) => {
   try {
-    const data = await Product.findByPk(req.params.ProductId);
+    const data = await Product.findByPk(req.params.ProductId, {
+      include: Review,
+    });
     res.send(data);
   } catch (err) {
     console.log(err);
