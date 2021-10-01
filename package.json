@@ -1,0 +1,33 @@
+{
+  "name": "strive-homework-m6d05-shopping_cart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -e js -r dotenv/config ./src/server.js",
+    "start": "node ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/justaspetrauskas/strive-homework-m6d05-shopping_cart.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/justaspetrauskas/strive-homework-m6d05-shopping_cart/issues"
+  },
+  "homepage": "https://github.com/justaspetrauskas/strive-homework-m6d05-shopping_cart#readme",
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.13"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "pg": "^8.7.1",
+    "sequelize": "^6.6.5"
+  }
+}
