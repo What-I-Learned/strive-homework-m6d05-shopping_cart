@@ -1,7 +1,7 @@
 import Customer from "./customer.js";
-import Product from "./product.js";
-import Review from "./review.js";
-import Category from "./category.js";
+import Product from "./products.js";
+import Review from "./reviews.js";
+import Category from "./categories.js";
 import ShoppingCart from "./shoppingCart.js";
 import ProductCategory from "./productCategories.js";
 
