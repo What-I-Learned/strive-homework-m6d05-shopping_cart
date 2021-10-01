@@ -10,7 +10,7 @@ productRouter.get("/", async (req, res, next) => {
     const data = await Product.findAll({
       include: [
         Review,
-        { model: Category, through: { attributes: ["categoryId"] } },
+        { model: Category, through: { attributes: ["categoryName"] } },
       ],
     });
     res.send(data);

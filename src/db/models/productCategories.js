@@ -10,8 +10,8 @@ const ProductCategory = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-  }
-  // { timestamps: false }
+  },
+  { timestamps: false }
 );
 // ProductCategory.sync({ force: true });
 
