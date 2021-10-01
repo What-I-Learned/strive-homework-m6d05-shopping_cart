@@ -32,4 +32,11 @@ Category.belongsToMany(Product, {
 Product.hasMany(Review); // Product.findAll({include:Review})
 Review.belongsTo(Product); // Reviews.findAll({include:Product})
 
-export default { Customer, ShoppingCart, Product, Category, Review };
+export default {
+  Customer,
+  ShoppingCart,
+  Product,
+  Category,
+  Review,
+  ProductCategory,
+};

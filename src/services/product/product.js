@@ -2,12 +2,17 @@ import express from "express";
 import db from "../../db/models/tableRelations.js";
 // import sequelize from "sequelize";
 
-const { Product, Review } = db;
+const { Product, Review, Category, ProductCategory } = db;
 const productRouter = express.Router();
 
 productRouter.get("/", async (req, res, next) => {
   try {
-    const data = await Product.findAll({ include: Review });
+    const data = await Product.findAll({
+      include: [
+        Review,
+        { model: Category, through: { attributes: ["categoryId"] } },
+      ],
+    });
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -60,6 +65,16 @@ productRouter.delete("/:ProductId", async (req, res, next) => {
     rows > 0
       ? res.send(`Product ${req.params.ProductId} deleted`)
       : res.status(404).send("Product not found");
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
+
+productRouter.post("/addCategory", async (req, res, next) => {
+  try {
+    const data = await ProductCategory.create(req.body);
+    res.send(data);
   } catch (err) {
     console.log(err);
     next(err);

@@ -2,7 +2,7 @@ import express from "express";
 import db from "../../db/models/tableRelations.js";
 // import sequelize from "sequelize";
 
-const { Category } = db;
+const { Category, ProductCategory } = db;
 const categoriesRouter = express.Router();
 
 categoriesRouter.get("/", async (req, res, next) => {
