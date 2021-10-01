@@ -7,7 +7,7 @@ const productRouter = express.Router();
 
 productRouter.get("/", async (req, res, next) => {
   try {
-    const data = await Product.findAll({});
+    const data = await Product.findAll({ include: Review });
     res.send(data);
   } catch (err) {
     console.log(err);
