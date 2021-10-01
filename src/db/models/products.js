@@ -3,7 +3,7 @@ import s from "sequelize";
 const { DataTypes } = s;
 
 const Product = sequelize.define(
-  "Product",
+  "product",
   {
     id: {
       primaryKey: true,
