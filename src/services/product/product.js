@@ -9,8 +9,13 @@ productRouter.get("/", async (req, res, next) => {
   try {
     const data = await Product.findAll({
       include: [
-        Review,
-        { model: Category, through: { attributes: ["categoryName"] } },
+        { model: Review, attributes: ["text", "username"] },
+        {
+          model: Category,
+          attributes: ["categoryName"],
+          // This block of code allows you to retrieve the properties of the join table
+          through: { attributes: [] }, // will not include anything
+        },
       ],
     });
     res.send(data);

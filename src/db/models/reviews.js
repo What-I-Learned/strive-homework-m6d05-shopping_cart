@@ -8,6 +8,10 @@ const Review = sequelize.define("review", {
     type: DataTypes.INTEGER,
     autoIncrement: true,
   },
+  rating: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
+  },
   text: {
     type: DataTypes.STRING,
     allowNull: false,
