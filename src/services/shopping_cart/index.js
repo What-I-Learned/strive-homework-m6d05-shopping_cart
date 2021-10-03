@@ -3,10 +3,9 @@ import db from "../../db/models/tableRelations.js";
 import sequelize from "sequelize";
 import fetch from "node-fetch";
 
-const { DataTypes } = sequelize;
+const { Op } = sequelize;
 const { ShoppingCart, Product } = db;
 const shoppingCartRouter = express.Router();
-const { LOCAL_HOST_URL } = process.env;
 
 shoppingCartRouter.get("/", async (req, res, next) => {
   try {
@@ -34,7 +33,7 @@ shoppingCartRouter.get("/:customerId", async (req, res, next) => {
       include: { model: Product, attributes: ["name", "price", "image"] },
     });
 
-    res.send(data);
+    res.send({ total_price, data });
   } catch (err) {
     console.log(err);
     next(err);
@@ -45,11 +44,6 @@ shoppingCartRouter.get("/:customerId", async (req, res, next) => {
 shoppingCartRouter.post("/", async (req, res, next) => {
   try {
     const data = await ShoppingCart.create(req.body);
-    const { productId } = data;
-    const response = await fetch(`http://localhost:5000/products/${productId}`);
-    const fetchData = await response.json();
-    console.log("this is fetched data " + fetchData);
-
     res.send(data);
   } catch (err) {
     console.log(err);

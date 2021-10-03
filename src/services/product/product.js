@@ -1,13 +1,20 @@
 import express from "express";
 import db from "../../db/models/tableRelations.js";
 import sequelize from "sequelize";
-
+const { Op } = sequelize;
 const { Product, Review, Category, ProductCategory } = db;
 const productRouter = express.Router();
 
 productRouter.get("/", async (req, res, next) => {
   try {
     const data = await Product.findAll({
+      // where: req.query.search
+      //   ? {
+      //       [Op.or]: [
+      //         { categories.categoryName: { [Op.iLike]: `%${req.query.search}%` } },
+      //       ],
+      //     }
+      //   : {},
       attributes: [
         "id",
         "name",
@@ -26,11 +33,22 @@ productRouter.get("/", async (req, res, next) => {
           attributes: ["categoryName"],
           // This block of code allows you to retrieve the properties of the join table
           through: { attributes: [] }, // will not include anything
+          where: req.query.search
+            ? {
+                [Op.or]: {
+                  categoryName: { [Op.iLike]: `%${req.query.search}%` },
+                },
+              }
+            : {},
         },
       ],
+      order: [["id", "ASC"]],
+      offset: req.query.page ? (req.query.page - 1) * 5 : 0,
+      limit: 5,
     });
-
-    res.send(data);
+    const pages = await Product.count();
+    const response = [data, { pages: pages }];
+    res.send(response);
   } catch (err) {
     console.log(err);
     next(err);
