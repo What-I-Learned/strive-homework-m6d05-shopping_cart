@@ -10,7 +10,7 @@ const Review = sequelize.define("review", {
   },
   rating: {
     type: DataTypes.FLOAT,
-    allowNull: true,
+    allowNull: false,
   },
   text: {
     type: DataTypes.STRING,

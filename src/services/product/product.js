@@ -1,6 +1,6 @@
 import express from "express";
 import db from "../../db/models/tableRelations.js";
-// import sequelize from "sequelize";
+import sequelize from "sequelize";
 
 const { Product, Review, Category, ProductCategory } = db;
 const productRouter = express.Router();
@@ -8,8 +8,19 @@ const productRouter = express.Router();
 productRouter.get("/", async (req, res, next) => {
   try {
     const data = await Product.findAll({
+      attributes: [
+        "id",
+        "name",
+        "image",
+        "price",
+        [
+          sequelize.fn("AVG", sequelize.col("reviews.rating")),
+          "average_rating",
+        ],
+      ],
+      group: ["product.id", "reviews.id", "categories.id"],
       include: [
-        { model: Review, attributes: ["text", "username"] },
+        { model: Review, attributes: ["text", "username", "rating"] },
         {
           model: Category,
           attributes: ["categoryName"],
@@ -18,6 +29,7 @@ productRouter.get("/", async (req, res, next) => {
         },
       ],
     });
+
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -28,8 +40,32 @@ productRouter.get("/", async (req, res, next) => {
 productRouter.get("/:ProductId", async (req, res, next) => {
   try {
     const data = await Product.findByPk(req.params.ProductId, {
-      include: Review,
+      attributes: [
+        "id",
+        "name",
+        "image",
+        "price",
+        [
+          sequelize.fn("AVG", sequelize.col("reviews.rating")),
+          "average_rating",
+        ],
+      ],
+      group: ["product.id", "reviews.id", "categories.id"],
+      include: [
+        {
+          model: Review,
+          attributes: ["text", "username", "rating"],
+        },
+        {
+          model: Category,
+          attributes: ["categoryName"],
+
+          through: { attributes: [] },
+        },
+      ],
     });
+
+    console.log(data.dataValues.average_rating);
     res.send(data);
   } catch (err) {
     console.log(err);
