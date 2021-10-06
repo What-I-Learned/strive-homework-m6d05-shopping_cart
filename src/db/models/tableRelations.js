@@ -32,6 +32,17 @@ Category.belongsToMany(Product, {
 Product.hasMany(Review); // Product.findAll({include:Review})
 Review.belongsTo(Product); // Reviews.findAll({include:Product})
 
+// ShoppingCart.beforeCreate(async (body) => {
+//   // const updateProduct = await Product.update(
+//   //   {
+//   //     itemsInStock: sequelize.literal("itemsInStock - 1"),
+//   //   },
+//   //   { where: { id: req.body.productId } }
+//   // );
+//   // get product
+//   //check if qty > 0 ? decrement by 1 :   return Promise.reject(new Error("I'm afraid I can't let you do that!"));
+// });
+
 export default {
   Customer,
   ShoppingCart,

@@ -33,7 +33,15 @@ shoppingCartRouter.get("/:customerId", async (req, res, next) => {
       include: { model: Product, attributes: ["name", "price", "image"] },
     });
 
-    res.send({ total_price, data });
+    const totalPrice = await ShoppingCart.sum("product.price", {
+      where: { customerId: req.params.customerId },
+      include: { model: Product, attributes: [] },
+    });
+    const totalQty = await ShoppingCart.count({
+      where: { customerId: req.params.customerId },
+    });
+    console.log(data[0].group_price);
+    res.send({ totalPrice, totalQty, data });
   } catch (err) {
     console.log(err);
     next(err);
@@ -44,6 +52,7 @@ shoppingCartRouter.get("/:customerId", async (req, res, next) => {
 shoppingCartRouter.post("/", async (req, res, next) => {
   try {
     const data = await ShoppingCart.create(req.body);
+
     res.send(data);
   } catch (err) {
     console.log(err);
